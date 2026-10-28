@@ -1,0 +1,105 @@
+spring:
+  # ==================== 数据源（druid-spring-boot-4-starter） ====================
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      # 生产不设默认值：环境变量缺了宁可启动失败，也别连到错误的库上
+      url: 'jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT:3306}/${MYSQL_DATABASE}?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&rewriteBatchedStatements=true'
+      username: ${MYSQL_USERNAME}
+      password: ${MYSQL_PASSWORD}
+
+      # 连接池
+      initial-size: 10
+      min-idle: 10
+      max-active: 50
+      max-wait: 60000
+      validation-query: SELECT 1
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      keep-alive: true
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+
+      # 生产环境不要暴露监控页面
+      stat-view-servlet:
+        enabled: false
+
+      filter:
+        stat:
+          enabled: true
+          log-slow-sql: true
+          slow-sql-millis: 2000
+        wall:
+          # 需要严格防注入时再打开，打开后要回归一遍所有 SQL
+          enabled: false
+
+  # ==================== redis ====================
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT:6379}
+      database: ${REDIS_DATABASE:0}
+      # 有密码时再放开这行，并且必须保证 REDIS_PASSWORD 有值：
+      # 解析成空字符串时 Redisson 仍会发 AUTH，导致启动报 "AUTH called without any password configured"
+      # password: ${REDIS_PASSWORD}
+      timeout: 10s
+      connect-timeout: 10s
+      lettuce:
+        pool:
+          max-active: 16
+          max-idle: 16
+          min-idle: 4
+          max-wait: 2000ms
+
+# ==================== 服务端 ====================
+server:
+  port: ${SERVER_PORT:8080}
+  error:
+    # 不要把异常信息、堆栈返给前端
+    include-message: never
+    include-stacktrace: never
+  compression:
+    enabled: true
+    mime-types: application/json,text/html,text/plain,text/css,application/javascript
+
+# ==================== 跨域 ====================
+cors:
+  enabled: true
+  # 生产不能用 *，多个域名用逗号分隔
+  allowed-origin-patterns: ${CORS_ALLOWED_ORIGINS:https://flux.example.com}
+  allowed-methods:
+    - GET
+    - POST
+    - PUT
+    - DELETE
+    - PATCH
+    - OPTIONS
+  allowed-headers:
+    - "*"
+  exposed-headers:
+    - "*"
+  allow-credentials: true
+  max-age: 3600
+
+# ==================== 对象存储（RustFS，S3 协议） ====================
+oss:
+  endpoint: ${OSS_ENDPOINT}
+  access-key: ${OSS_ACCESS_KEY}
+  secret-key: ${OSS_SECRET_KEY}
+  bucket: ${OSS_BUCKET}
+  region: ${OSS_REGION:us-east-1}
+  path-style-access: ${OSS_PATH_STYLE:true}
+
+# ==================== 日志 ====================
+logging:
+  file:
+    name: ${LOG_PATH:./logs}/flux-auth-center.log
+  logback:
+    rollingpolicy:
+      max-file-size: 100MB
+      max-history: 30
+      total-size-cap: 5GB
+  level:
+    root: info
+    com.flux: info

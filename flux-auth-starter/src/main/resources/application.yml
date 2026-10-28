@@ -1,0 +1,84 @@
+server:
+  port: 8080
+  # 优雅停机：等正在处理的请求跑完再关
+  shutdown: graceful
+
+spring:
+  application:
+    name: flux-auth-center
+  profiles:
+    # 生产用 --spring.profiles.active=prod 或环境变量 SPRING_PROFILES_ACTIVE 覆盖
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+  lifecycle:
+    timeout-per-shutdown-phase: 20s
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 20MB
+
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+    default-property-inclusion: non_null
+
+# ==================== mybatis-plus ====================
+mybatis-plus:
+  # mapper xml 位置，约定放在各模块 resources/mapper 下
+  mapper-locations: classpath*:/mapper/**/*.xml
+  configuration:
+    # 数据库下划线字段自动映射到实体驼峰属性
+    map-underscore-to-camel-case: true
+  global-config:
+    banner: false
+    db-config:
+      # 主键默认雪花ID，实体上用 @TableId(type = IdType.AUTO) 可单独覆盖
+      id-type: assign_id
+      # 逻辑删除：等 BaseEntity 里加了 delFlag 字段再打开
+      # logic-delete-field: delFlag
+      # logic-delete-value: 1
+      # logic-not-delete-value: 0
+
+# ==================== 跨域（CorsProperties） ====================
+cors:
+  enabled: true
+  allowed-origin-patterns:
+    - "*"
+  allowed-methods:
+    - GET
+    - POST
+    - PUT
+    - DELETE
+    - PATCH
+    - OPTIONS
+  allowed-headers:
+    - "*"
+  exposed-headers:
+    - "*"
+  # 允许携带 cookie 时，allowed-origin-patterns 不能用 "*"（用具体域名或正则）
+  allow-credentials: true
+  max-age: 3600
+
+# ==================== sa-token ====================
+sa-token:
+  token-name: Authorization
+  # token 有效期 30 天
+  timeout: 2592000
+  # 活跃超时，-1 表示不单独限制
+  active-timeout: -1
+  # 允许同一账号多端登录
+  is-concurrent: true
+  # 多端登录时共用一个 token
+  is-share: false
+  token-style: uuid
+  # 纯前后端分离，不读写 cookie
+  is-read-cookie: false
+  is-log: false
+
+# ==================== 日志 ====================
+logging:
+  level:
+    root: info
+    com.flux: info
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"

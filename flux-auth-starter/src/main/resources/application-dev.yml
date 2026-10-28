@@ -1,0 +1,81 @@
+spring:
+  # ==================== 数据源（druid-spring-boot-4-starter） ====================
+  datasource:
+    # druid-spring-boot-4-starter 会自动把 DataSource 换成 Druid，不用再写 spring.datasource.type
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      # 数据库连接信息全部走环境变量，没配时用冒号后面的默认值
+      url: 'jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DATABASE:ry-vue}?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8'
+      username: ${MYSQL_USERNAME:root}
+      password: ${MYSQL_PASSWORD:}
+
+      # 连接池
+      initial-size: 5
+      min-idle: 10
+      max-active: 20
+      max-wait: 60000
+      # 检测连接是否有效
+      validation-query: SELECT 1
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      # 空闲时保活，避免 MySQL 8 小时回收
+      keep-alive: true
+      # 申请连接时检测空闲时间超过该值才做 validation
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+
+      # 监控页面 /druid/**，本地调试时再打开，生产环境务必关掉或加账号
+      stat-view-servlet:
+        enabled: false
+        login-username: admin
+        login-password: admin123
+        allow: 127.0.0.1
+
+      filter:
+        stat:
+          enabled: true
+          log-slow-sql: true
+          slow-sql-millis: 1000
+        wall:
+          # wall 会拦截部分 SQL 语法，需要严格防注入时再打开
+          enabled: false
+
+  # ==================== redis（redisson-spring-boot-starter） ====================
+  data:
+    redis:
+      # REDIS_HOST / REDIS_PORT / REDIS_DATABASE
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      database: ${REDIS_DATABASE:0}
+      # password: ${REDIS_PASSWORD:xxx}
+      # 连接超时
+      timeout: 10s
+      connect-timeout: 10s
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+          max-wait: -1ms
+
+# ==================== 对象存储（RustFS，S3 协议） ====================
+# 配了 endpoint 才会装配 common-oss。access-key / secret-key 就是 S3 的账号密码，
+# 凭证不写默认值，必须通过环境变量注入，避免把真实账号带进版本库
+oss:
+  endpoint: ${OSS_ENDPOINT:http://localhost:9000}
+  access-key: ${OSS_ACCESS_KEY}
+  secret-key: ${OSS_SECRET_KEY}
+  bucket: ${OSS_BUCKET:flux-auth}
+  region: us-east-1
+  # 自建对象存储必须用 path-style，即 http://endpoint/bucket/key
+  path-style-access: true
+
+# ==================== 开发环境日志 ====================
+logging:
+  level:
+    com.flux: debug
+# 打印 mybatis 执行的 SQL，上线前改成 NoLoggingImpl
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

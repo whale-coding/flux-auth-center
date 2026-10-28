@@ -1,0 +1,80 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.flux</groupId>
+        <artifactId>flux-auth-center</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>flux-auth-starter</artifactId>
+    <packaging>jar</packaging>
+    <name>flux-auth-starter</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <!-- web：统一响应、全局异常、跨域 -->
+        <dependency>
+            <groupId>com.flux</groupId>
+            <artifactId>common-web</artifactId>
+        </dependency>
+
+        <!-- mybatis-plus：分页、数据权限、字段自动填充 -->
+        <dependency>
+            <groupId>com.flux</groupId>
+            <artifactId>common-mybatis-plus</artifactId>
+        </dependency>
+
+        <!-- redis：RedisTemplate + Redisson -->
+        <dependency>
+            <groupId>com.flux</groupId>
+            <artifactId>common-redis</artifactId>
+        </dependency>
+
+        <!-- 认证：sa-token -->
+        <dependency>
+            <groupId>com.flux</groupId>
+            <artifactId>common-satoken</artifactId>
+        </dependency>
+
+        <!-- 操作日志 -->
+        <dependency>
+            <groupId>com.flux</groupId>
+            <artifactId>common-log</artifactId>
+        </dependency>
+
+        <!-- 对象存储：RustFS（S3 协议） -->
+        <dependency>
+            <groupId>com.flux</groupId>
+            <artifactId>common-oss</artifactId>
+        </dependency>
+
+        <!-- Excel 导入导出 -->
+        <dependency>
+            <groupId>com.flux</groupId>
+            <artifactId>common-excel</artifactId>
+        </dependency>
+
+        <!-- 接口文档：等 knife4j 换成支持 Spring Boot 4 的版本后再打开
+             （knife4j 4.5.0 依赖 springdoc 2.0.4，扫描 controller 时会抛
+             NoSuchMethodError: ControllerAdviceBean.<init>(Object)，Spring 7 已删掉这个构造器）
+        <dependency>
+            <groupId>com.flux</groupId>
+            <artifactId>common-knife4j</artifactId>
+        </dependency>
+        -->
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- 打包成可执行 jar -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>
