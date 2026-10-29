@@ -5,7 +5,7 @@ spring:
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
       # 数据库连接信息全部走环境变量，没配时用冒号后面的默认值
-      url: 'jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DATABASE:ry-vue}?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8'
+      url: 'jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DATABASE:flux-auth-center}?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8'
       username: ${MYSQL_USERNAME:root}
       password: ${MYSQL_PASSWORD:}
 

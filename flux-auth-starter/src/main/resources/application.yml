@@ -32,12 +32,9 @@ mybatis-plus:
   global-config:
     banner: false
     db-config:
-      # 主键默认雪花ID，实体上用 @TableId(type = IdType.AUTO) 可单独覆盖
-      id-type: assign_id
-      # 逻辑删除：等 BaseEntity 里加了 delFlag 字段再打开
-      # logic-delete-field: delFlag
-      # logic-delete-value: 1
-      # logic-not-delete-value: 0
+      # 所有业务表的主键都是 auto_increment
+      id-type: auto
+      # 逻辑删除由 BaseEntity.deleted 上的 @TableLogic 控制，这里不再重复配置
 
 # ==================== 跨域（CorsProperties） ====================
 cors:
