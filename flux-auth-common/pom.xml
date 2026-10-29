@@ -18,7 +18,6 @@
         <module>common-satoken</module>
         <module>common-oss</module>
         <module>common-web</module>
-        <module>common-log</module>
         <module>common-excel</module>
         <module>common-knife4j</module>
     </modules>

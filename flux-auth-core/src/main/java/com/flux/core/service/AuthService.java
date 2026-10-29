@@ -2,7 +2,6 @@ package com.flux.core.service;
 
 import com.flux.core.model.form.LoginForm;
 import com.flux.core.model.vo.LoginVO;
-import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @ClassName AuthService
@@ -15,10 +14,10 @@ public interface AuthService {
     /**
      * 登录，失败抛 {@link com.flux.common.web.exception.BizException}
      */
-    LoginVO login(LoginForm form, HttpServletRequest request);
+    LoginVO login(LoginForm form);
 
     /**
-     * 注销当前会话并记录登录日志
+     * 注销当前会话
      */
-    void logout(HttpServletRequest request);
+    void logout();
 }

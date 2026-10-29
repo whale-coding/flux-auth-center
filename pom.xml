@@ -76,11 +76,6 @@
       </dependency>
       <dependency>
         <groupId>com.flux</groupId>
-        <artifactId>common-log</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.flux</groupId>
         <artifactId>common-excel</artifactId>
         <version>${project.version}</version>
       </dependency>

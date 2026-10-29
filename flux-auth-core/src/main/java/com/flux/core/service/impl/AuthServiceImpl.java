@@ -5,7 +5,6 @@ import cn.dev33.satoken.secure.BCrypt;
 import com.flux.common.core.constant.SystemConstants;
 import com.flux.common.core.enums.StatusEnum;
 import com.flux.common.core.result.ResultCode;
-import com.flux.common.log.event.LoginInfoEvent;
 import com.flux.common.mybatis.enums.DataScopeEnum;
 import com.flux.common.satoken.helper.LoginHelper;
 import com.flux.common.satoken.model.LoginUser;
@@ -18,10 +17,8 @@ import com.flux.core.support.DataScopeMerger;
 import com.flux.system.model.entity.Role;
 import com.flux.system.model.entity.User;
 import com.flux.system.service.AuthDataService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -34,7 +31,7 @@ import java.util.stream.Collectors;
  * @ClassName AuthServiceImpl
  * @Author njq
  * @Date 2026/10/29
- * @Description 登录流程：查用户 -> 校验密码/状态 -> 组装 LoginUser -> 签发 token -> 记录登录日志。
+ * @Description 登录流程：查用户 -> 校验密码/状态 -> 组装 LoginUser -> 签发 token。
  * 角色、权限、部门数据由 flux-auth-system 提供，本类只负责认证与登录态
  */
 @Slf4j
@@ -42,30 +39,23 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
-    private static final String EVENT_STATUS_SUCCESS = "0";
-    private static final String EVENT_STATUS_FAILURE = "1";
-
     private final AuthDataService authDataService;
     private final LoginService loginService;
-    private final ApplicationEventPublisher eventPublisher;
 
     @Override
-    public LoginVO login(LoginForm form, HttpServletRequest request) {
+    public LoginVO login(LoginForm form) {
         User user = authDataService.getByUsername(form.getUsername());
 
         // 用户不存在和密码错误返回同一个错误码，不暴露账号是否存在
         if (user == null || !matches(form.getPassword(), user.getPassword())) {
-            publishLoginInfo(request, form.getUsername(), false, ResultCode.USERNAME_OR_PASSWORD_ERROR.getMsg());
             throw new BizException(ResultCode.USERNAME_OR_PASSWORD_ERROR);
         }
         if (!StatusEnum.ENABLE.getValue().equals(user.getStatus())) {
-            publishLoginInfo(request, form.getUsername(), false, ResultCode.USER_ACCOUNT_DISABLED.getMsg());
             throw new BizException(ResultCode.USER_ACCOUNT_DISABLED);
         }
 
         LoginUser loginUser = buildLoginUser(user);
         loginService.login(loginUser);
-        publishLoginInfo(request, form.getUsername(), true, "登录成功");
 
         return new LoginVO(SaManager.getConfig().getTokenName(),
                 LoginHelper.getTokenValue(),
@@ -73,11 +63,8 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public void logout(HttpServletRequest request) {
-        // 先取用户名，登出后 token 失效就取不到了
-        String username = LoginHelper.getUsername();
+    public void logout() {
         loginService.logout();
-        publishLoginInfo(request, username, true, "退出成功");
     }
 
     /**
@@ -141,14 +128,5 @@ public class AuthServiceImpl implements AuthService {
             log.warn("密码校验失败，可能是密码哈希格式不正确", e);
             return false;
         }
-    }
-
-    private void publishLoginInfo(HttpServletRequest request, String username, boolean success, String message) {
-        LoginInfoEvent event = new LoginInfoEvent();
-        event.setUsername(username);
-        event.setStatus(success ? EVENT_STATUS_SUCCESS : EVENT_STATUS_FAILURE);
-        event.setMessage(message);
-        event.setRequest(request);
-        eventPublisher.publishEvent(event);
     }
 }

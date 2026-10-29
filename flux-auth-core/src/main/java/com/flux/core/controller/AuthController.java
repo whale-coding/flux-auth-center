@@ -6,7 +6,6 @@ import com.flux.common.satoken.model.LoginUser;
 import com.flux.core.model.form.LoginForm;
 import com.flux.core.model.vo.LoginVO;
 import com.flux.core.service.AuthService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,16 +31,16 @@ public class AuthController {
      * 登录，返回 token
      */
     @PostMapping("/login")
-    public Result<LoginVO> login(@RequestBody @Valid LoginForm form, HttpServletRequest request) {
-        return Result.success(authService.login(form, request));
+    public Result<LoginVO> login(@RequestBody @Valid LoginForm form) {
+        return Result.success(authService.login(form));
     }
 
     /**
      * 注销当前会话
      */
     @PostMapping("/logout")
-    public Result<Void> logout(HttpServletRequest request) {
-        authService.logout(request);
+    public Result<Void> logout() {
+        authService.logout();
         return Result.success();
     }
 

@@ -40,12 +40,6 @@
             <artifactId>common-satoken</artifactId>
         </dependency>
 
-        <!-- 操作日志 -->
-        <dependency>
-            <groupId>com.flux</groupId>
-            <artifactId>common-log</artifactId>
-        </dependency>
-
         <!-- 对象存储：RustFS（S3 协议） -->
         <dependency>
             <groupId>com.flux</groupId>

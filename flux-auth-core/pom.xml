@@ -34,12 +34,6 @@
             <artifactId>common-satoken</artifactId>
         </dependency>
 
-        <!-- 登录事件 -->
-        <dependency>
-            <groupId>com.flux</groupId>
-            <artifactId>common-log</artifactId>
-        </dependency>
-
         <!-- DataScopeEnum：多角色数据范围合并 -->
         <dependency>
             <groupId>com.flux</groupId>
