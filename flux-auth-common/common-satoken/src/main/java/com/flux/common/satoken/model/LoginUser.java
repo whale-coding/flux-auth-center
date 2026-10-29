@@ -34,6 +34,11 @@ public class LoginUser implements Serializable, SaJsonType {
     private String nickname;
 
     /**
+     * 用户头像
+     */
+    private String avatar;
+
+    /**
      * 部门ID
      */
     private Long deptId;
@@ -47,6 +52,13 @@ public class LoginUser implements Serializable, SaJsonType {
      * 数据权限范围，取值见 common-mybatis-plus 的 DataScopeEnum
      */
     private Integer dataScope;
+
+    /**
+     * 数据权限可访问的部门集合：
+     * DEPT_AND_CHILD 时是当前部门及子部门，CUSTOM 时是角色配置的 sys_role_dept，
+     * 其它范围为空。登录时算好放进会话，避免每次请求查库
+     */
+    private Set<Long> dataScopeDeptIds = new HashSet<>();
 
     /**
      * 角色编码集合

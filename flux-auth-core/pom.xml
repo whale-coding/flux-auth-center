@@ -16,6 +16,53 @@
     </properties>
 
     <dependencies>
+        <!-- 统一响应、错误码、常量 -->
+        <dependency>
+            <groupId>com.flux</groupId>
+            <artifactId>common-core</artifactId>
+        </dependency>
 
+        <!-- web：Controller、BizException、参数校验 -->
+        <dependency>
+            <groupId>com.flux</groupId>
+            <artifactId>common-web</artifactId>
+        </dependency>
+
+        <!-- 登录态：LoginService / LoginHelper / LoginUser -->
+        <dependency>
+            <groupId>com.flux</groupId>
+            <artifactId>common-satoken</artifactId>
+        </dependency>
+
+        <!-- 登录事件 -->
+        <dependency>
+            <groupId>com.flux</groupId>
+            <artifactId>common-log</artifactId>
+        </dependency>
+
+        <!-- DataScopeEnum：多角色数据范围合并 -->
+        <dependency>
+            <groupId>com.flux</groupId>
+            <artifactId>common-mybatis-plus</artifactId>
+        </dependency>
+
+        <!-- 用户/角色/权限/部门查询 -->
+        <dependency>
+            <groupId>com.flux</groupId>
+            <artifactId>flux-auth-system</artifactId>
+        </dependency>
+
+        <!-- lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+        <!-- test -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>

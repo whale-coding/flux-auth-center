@@ -21,4 +21,9 @@ public interface SystemConstants {
      * 超级管理员角色编码
      */
     String ROOT_ROLE_CODE = "ROOT";
+
+    /**
+     * 超级管理员通配权限标识，sa-token 的通配匹配规则下等同于拥有所有权限
+     */
+    String ALL_PERMISSION = "*:*:*";
 }
