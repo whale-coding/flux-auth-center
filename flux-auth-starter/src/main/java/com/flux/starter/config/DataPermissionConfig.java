@@ -12,7 +12,8 @@ import org.springframework.context.annotation.Configuration;
  * @Author njq
  * @Date 2026/10/28
  * @Description 数据权限数据源：直接取登录时写进 token-session 的 LoginUser。
- * 等 flux-auth-system 把部门表建好后，换成能补全子部门 ID 的实现（deptIds）
+ * 部门集合在登录时已经算好（DEPT_AND_CHILD 是部门子树，CUSTOM 是 sys_role_dept），
+ * 这里不再查库，避免每个请求都扫一遍部门表
  */
 @Configuration
 public class DataPermissionConfig {
@@ -25,7 +26,7 @@ public class DataPermissionConfig {
                 return null;
             }
             return new UserDataScope(loginUser.getUserId(), loginUser.getDeptId(),
-                    loginUser.getDataScope(), null);
+                    loginUser.getDataScope(), loginUser.getDataScopeDeptIds());
         };
     }
 }

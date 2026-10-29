@@ -58,6 +58,18 @@
             <artifactId>common-excel</artifactId>
         </dependency>
 
+        <!-- 认证链路：登录/登出 -->
+        <dependency>
+            <groupId>com.flux</groupId>
+            <artifactId>flux-auth-core</artifactId>
+        </dependency>
+
+        <!-- 系统管理业务 -->
+        <dependency>
+            <groupId>com.flux</groupId>
+            <artifactId>flux-auth-system</artifactId>
+        </dependency>
+
         <!-- 接口文档：等 knife4j 换成支持 Spring Boot 4 的版本后再打开
              （knife4j 4.5.0 依赖 springdoc 2.0.4，扫描 controller 时会抛
              NoSuchMethodError: ControllerAdviceBean.<init>(Object)，Spring 7 已删掉这个构造器）
