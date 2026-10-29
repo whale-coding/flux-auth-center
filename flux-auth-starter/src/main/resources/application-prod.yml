@@ -91,6 +91,14 @@ oss:
   region: ${OSS_REGION:us-east-1}
   path-style-access: ${OSS_PATH_STYLE:true}
 
+# ==================== 接口文档 ====================
+# 生产环境关闭文档端点：api-docs 是公开可读的，开着等于把全部接口暴露出去
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
+
 # ==================== 日志 ====================
 logging:
   file:
