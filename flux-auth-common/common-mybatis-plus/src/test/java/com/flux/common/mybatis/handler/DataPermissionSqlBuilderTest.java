@@ -51,6 +51,21 @@ class DataPermissionSqlBuilderTest {
     }
 
     @Test
+    @DisplayName("CUSTOM 范围用角色配置的自定义部门集合")
+    void customScope() {
+        Set<Long> deptIds = new LinkedHashSet<>(java.util.List.of(100L, 200L, 300L));
+        assertEquals("u.dept_id IN (100,200,300)",
+                build(scope(DataScopeEnum.CUSTOM, deptIds), aliased(), userTable()));
+    }
+
+    @Test
+    @DisplayName("CUSTOM 没配部门时退化成只看本部门")
+    void customWithoutIds() {
+        assertEquals("u.dept_id IN (100)",
+                build(scope(DataScopeEnum.CUSTOM, null), aliased(), userTable()));
+    }
+
+    @Test
     @DisplayName("SELF 范围只过滤本人数据")
     void selfScope() {
         assertEquals("u.create_by = 9",

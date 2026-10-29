@@ -17,7 +17,11 @@ public enum DataScopeEnum implements IBaseEnum<Integer> {
     ALL(0, "所有数据"),
     DEPT_AND_CHILD(1, "部门及子部门数据"),
     DEPT(2, "本部门数据"),
-    SELF(3, "本人数据");
+    SELF(3, "本人数据"),
+    /**
+     * 自定义部门数据，部门集合来自 sys_role_dept
+     */
+    CUSTOM(4, "自定义部门数据");
 
     private final Integer value;
     private final String label;

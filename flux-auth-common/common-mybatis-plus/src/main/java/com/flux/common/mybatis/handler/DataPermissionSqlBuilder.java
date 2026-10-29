@@ -56,7 +56,7 @@ public final class DataPermissionSqlBuilder {
 
         return switch (dataScope) {
             case DEPT -> scope.getDeptId() == null ? null : deptColumn + " = " + scope.getDeptId();
-            case DEPT_AND_CHILD -> buildDeptIn(scope, deptColumn);
+            case DEPT_AND_CHILD, CUSTOM -> buildDeptIn(scope, deptColumn);
             case SELF -> scope.getUserId() == null ? null : userColumn + " = " + scope.getUserId();
             default -> null;
         };
