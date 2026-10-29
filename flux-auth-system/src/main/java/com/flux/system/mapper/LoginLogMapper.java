@@ -1,13 +1,14 @@
 package com.flux.system.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.flux.system.model.entity.SysLogininfor;
+import com.flux.system.model.entity.LoginLog;
 
 /**
- * @ClassName SysLogininforMapper
+ * @ClassName LoginLogMapper
  * @Author njq
  * @Date 2026/10/29
  * @Description 登录日志 Mapper
  */
-public interface SysLogininforMapper extends BaseMapper<SysLogininfor> {
+public interface LoginLogMapper extends BaseMapper<LoginLog> {
+
 }

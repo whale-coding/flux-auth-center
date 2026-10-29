@@ -15,9 +15,9 @@ import com.flux.core.model.form.LoginForm;
 import com.flux.core.model.vo.LoginVO;
 import com.flux.core.service.AuthService;
 import com.flux.core.support.DataScopeMerger;
-import com.flux.system.model.entity.SysRole;
-import com.flux.system.model.entity.SysUser;
-import com.flux.system.service.SysAuthDataService;
+import com.flux.system.model.entity.Role;
+import com.flux.system.model.entity.User;
+import com.flux.system.service.AuthDataService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,13 +45,13 @@ public class AuthServiceImpl implements AuthService {
     private static final String EVENT_STATUS_SUCCESS = "0";
     private static final String EVENT_STATUS_FAILURE = "1";
 
-    private final SysAuthDataService authDataService;
+    private final AuthDataService authDataService;
     private final LoginService loginService;
     private final ApplicationEventPublisher eventPublisher;
 
     @Override
     public LoginVO login(LoginForm form, HttpServletRequest request) {
-        SysUser user = authDataService.getByUsername(form.getUsername());
+        User user = authDataService.getByUsername(form.getUsername());
 
         // 用户不存在和密码错误返回同一个错误码，不暴露账号是否存在
         if (user == null || !matches(form.getPassword(), user.getPassword())) {
@@ -84,23 +84,32 @@ public class AuthServiceImpl implements AuthService {
      * 组装写入 token-session 的登录用户信息。
      * ROOT 角色直接给通配权限和全部数据范围，不再查权限表
      */
-    private LoginUser buildLoginUser(SysUser user) {
-        List<SysRole> roles = authDataService.listEnabledRoles(user.getId());
+    private LoginUser buildLoginUser(User user) {
+        List<Role> roles = authDataService.listEnabledRoles(user.getId());
         Set<String> roleCodes = roles.stream()
-                .map(SysRole::getCode)
+                .map(Role::getCode)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+        Set<Long> roleIds = roles.stream()
+                .map(Role::getId)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
         boolean root = roleCodes.contains(SystemConstants.ROOT_ROLE_CODE);
 
         DataScopeEnum dataScope = root
                 ? DataScopeEnum.ALL
-                : DataScopeMerger.merge(roles.stream().map(SysRole::getDataScope).toList());
+                : DataScopeMerger.merge(roles.stream().map(Role::getDataScope).toList());
         Set<String> permissions = root
                 ? Set.of(SystemConstants.ALL_PERMISSION)
-                : authDataService.listPermissionCodes(user.getId());
+                : authDataService.listPermissionCodes(roleIds);
         Set<Long> dataScopeDeptIds = switch (dataScope) {
             case DEPT_AND_CHILD -> authDataService.listSelfAndChildDeptIds(user.getDeptId());
-            case CUSTOM -> authDataService.listCustomDeptIds(user.getId());
+            case CUSTOM -> authDataService.listCustomDeptIds(
+                    roles.stream()
+                            .filter(role -> DataScopeEnum.CUSTOM.getValue().equals(role.getDataScope()))
+                            .map(Role::getId)
+                            .filter(Objects::nonNull)
+                            .collect(Collectors.toSet()));
             default -> Set.of();
         };
 

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.flux.system.mapper.DeptMapper">
+
+    <!-- 当前部门及所有子部门 ID（DEPT_AND_CHILD 数据范围用），递归 CTE，单表 -->
+    <select id="selectSelfAndChildIds" resultType="java.lang.Long">
+        with recursive dept_tree as (
+            select id from sys_dept where id = #{deptId} and deleted = 0
+            union all
+            select d.id
+            from sys_dept d
+            join dept_tree t on d.parent_id = t.id
+            where d.deleted = 0
+        )
+        select id from dept_tree
+    </select>
+</mapper>

@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * @ClassName SysUser
+ * @ClassName User
  * @Author njq
  * @Date 2026/10/29
  * @Description 用户表 sys_user
@@ -16,7 +16,7 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true, exclude = "password")
 @TableName("sys_user")
-public class SysUser extends BaseEntity {
+public class User extends BaseEntity {
 
     /**
      * 用户ID

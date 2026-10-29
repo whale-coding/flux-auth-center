@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * @ClassName SysLogininfor
+ * @ClassName LoginLog
  * @Author njq
  * @Date 2026/10/29
  * @Description 系统访问记录 sys_logininfor。
@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @TableName("sys_logininfor")
-public class SysLogininfor implements Serializable {
+public class LoginLog implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

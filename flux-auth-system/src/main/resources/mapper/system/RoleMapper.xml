@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.flux.system.mapper.RoleMapper">
+
+    <!-- 用户拥有的启用角色：只连 sys_user_role，1 张关联表 -->
+    <select id="selectEnabledByUserId" resultType="com.flux.system.model.entity.Role">
+        select r.id, r.name, r.code, r.sort, r.status, r.data_scope
+        from sys_role r
+        join sys_user_role ur on ur.role_id = r.id
+        where ur.user_id = #{userId}
+          and r.status = 1
+          and r.deleted = 0
+        order by r.sort
+    </select>
+
+    <!-- 角色对应的权限ID，单表 -->
+    <select id="selectPermissionIdsByRoleIds" resultType="java.lang.Long">
+        select distinct perm_id
+        from sys_role_permission
+        where role_id in
+        <foreach collection="roleIds" item="roleId" open="(" separator="," close=")">#{roleId}</foreach>
+    </select>
+
+    <!-- 权限ID对应的权限标识，单表 -->
+    <select id="selectPermissionCodesByIds" resultType="java.lang.String">
+        select distinct perm_code
+        from sys_permission
+        where id in
+        <foreach collection="permIds" item="permId" open="(" separator="," close=")">#{permId}</foreach>
+          and status = 1
+          and deleted = 0
+    </select>
+
+    <!-- 自定义数据范围角色配置的部门，单表 -->
+    <select id="selectCustomDeptIdsByRoleIds" resultType="java.lang.Long">
+        select distinct dept_id
+        from sys_role_dept
+        where role_id in
+        <foreach collection="roleIds" item="roleId" open="(" separator="," close=")">#{roleId}</foreach>
+    </select>
+</mapper>

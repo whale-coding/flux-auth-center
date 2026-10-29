@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * @ClassName SysPermission
+ * @ClassName Permission
  * @Author njq
  * @Date 2026/10/29
  * @Description 接口/按钮权限表 sys_permission
@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("sys_permission")
-public class SysPermission extends BaseEntity {
+public class Permission extends BaseEntity {
 
     /**
      * 权限ID
