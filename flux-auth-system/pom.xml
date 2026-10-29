@@ -16,6 +16,41 @@
     </properties>
 
     <dependencies>
+        <!-- 统一响应、常量 -->
+        <dependency>
+            <groupId>com.flux</groupId>
+            <artifactId>common-core</artifactId>
+        </dependency>
 
+        <!-- Entity / Mapper / 数据权限 -->
+        <dependency>
+            <groupId>com.flux</groupId>
+            <artifactId>common-mybatis-plus</artifactId>
+        </dependency>
+
+        <!-- 登录事件 -->
+        <dependency>
+            <groupId>com.flux</groupId>
+            <artifactId>common-log</artifactId>
+        </dependency>
+
+        <!-- web：后续 Controller、参数校验会用到 -->
+        <dependency>
+            <groupId>com.flux</groupId>
+            <artifactId>common-web</artifactId>
+        </dependency>
+
+        <!-- lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+        <!-- test -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>
