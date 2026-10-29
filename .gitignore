@@ -39,5 +39,4 @@ build/
 ### AI ###
 .mcp.json
 Claude.md
-.docs/
 docs/
