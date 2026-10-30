@@ -31,9 +31,6 @@ public class AuthProperties {
             "/captcha/**",
             "/error",
             "/favicon.ico",
-            "/doc.html",
-            "/webjars/**",
-            "/v3/api-docs/**",
-            "/swagger-ui/**"
+            "/v3/api-docs/**"
     ));
 }

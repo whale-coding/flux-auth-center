@@ -19,6 +19,6 @@
         <module>common-oss</module>
         <module>common-web</module>
         <module>common-excel</module>
-        <module>common-knife4j</module>
+        <module>common-openapi</module>
     </modules>
 </project>

@@ -64,10 +64,10 @@
             <artifactId>flux-auth-system</artifactId>
         </dependency>
 
-        <!-- 接口文档：knife4j -->
+        <!-- 接口文档：springdoc 生成 /v3/api-docs，供 Apifox 导入 -->
         <dependency>
             <groupId>com.flux</groupId>
-            <artifactId>common-knife4j</artifactId>
+            <artifactId>common-openapi</artifactId>
         </dependency>
     </dependencies>
 

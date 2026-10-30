@@ -1,4 +1,4 @@
-package com.flux.common.knife4j;
+package com.flux.common.openapi;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -7,7 +7,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @ClassName DocProperties
  * @Author njq
  * @Date 2026/10/28 09:44
- * @Description knife4j文档自定义配置
+ * @Description 接口文档自定义配置
  */
 @Data
 @ConfigurationProperties(prefix = "doc")
@@ -31,4 +31,9 @@ public class DocProperties {
      * 版本
      */
     private String version = "1.0.0";
+
+    /**
+     * 鉴权请求头名称，要和 sa-token 的 token-name 保持一致
+     */
+    private String authHeader = "Authorization";
 }

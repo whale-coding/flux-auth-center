@@ -96,8 +96,6 @@ oss:
 springdoc:
   api-docs:
     enabled: false
-  swagger-ui:
-    enabled: false
 
 # ==================== 日志 ====================
 logging:

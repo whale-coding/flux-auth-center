@@ -72,6 +72,22 @@ sa-token:
   is-read-cookie: false
   is-log: false
 
+# ==================== 接口文档 ====================
+doc:
+  enable: true
+  title: Flux 认证中心接口文档
+  description: 登录、登出、当前登录人
+  version: 1.0.0
+  # 和 sa-token 的 token-name 保持一致
+  auth-header: Authorization
+
+# 文档由 springdoc 生成，供 Apifox 等外部工具导入；本工程不再内置 Swagger UI / Knife4j 页面
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+    # 输出 OpenAPI 3.0，兼容性最好（默认是 3.1）
+    version: openapi_3_0
+
 # ==================== 日志 ====================
 logging:
   level:

@@ -52,6 +52,13 @@
             <artifactId>sa-token-jackson3</artifactId>
         </dependency>
 
+        <!-- 接口文档注解：只给 LoginUser 加字段说明，optional 不向使用方传递依赖 -->
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <optional>true</optional>
+        </dependency>
+
         <!-- aop：防重复提交切面 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
